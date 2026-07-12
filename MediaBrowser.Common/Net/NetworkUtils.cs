@@ -18,7 +18,10 @@ public static partial class NetworkUtils
 {
     // Use regular expression as CheckHostName isn't RFC5892 compliant.
     // Modified from gSkinner's expression at https://stackoverflow.com/questions/11809631/fully-qualified-domain-name-validation
-    [GeneratedRegex(@"(?im)^(?!:\/\/)(?=.{1,255}$)((.{1,63}\.){0,127}(?![0-9]*$)[a-z0-9-]+\.?)(:(\d){1,5}){0,1}$", RegexOptions.IgnoreCase, "en-US")]
+    // Culture argument removed locally: this dev machine has no libicu, so builds run
+    // with DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 and the regex source generator
+    // rejects named cultures (SYSLIB1042). Do not commit; revert once libicu is installed.
+    [GeneratedRegex(@"(?im)^(?!:\/\/)(?=.{1,255}$)((.{1,63}\.){0,127}(?![0-9]*$)[a-z0-9-]+\.?)(:(\d){1,5}){0,1}$", RegexOptions.IgnoreCase)]
     private static partial Regex FqdnGeneratedRegex();
 
     /// <summary>
